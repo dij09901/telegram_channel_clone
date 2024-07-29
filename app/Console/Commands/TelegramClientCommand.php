@@ -54,14 +54,18 @@ class TelegramClientCommand extends Command
                 $updates = $madelineProto->getUpdates([
                     'offset' => $offsetId,
                     'limit' => 100,
-                    'timeout' => 0
+                    'timeout' => 10
                 ]);
 
+//                $madelineProto->logger($offsetId);
+
                 foreach ($updates as $update) {
+//                    $madelineProto->logger($updates);
                     if ($offsetId != $update['update_id']) {
                         $offsetId = $update['update_id'];
                         if (isset($update['update']['message'])) {
                             $peer_id = $update['update']['message']['peer_id'];
+
                             if ($peer_id == $sourceChaneelID) {
                                 $message = $update['update']['message']['message'];
                                 if ($this->filterMessage($message)) {
@@ -72,7 +76,6 @@ class TelegramClientCommand extends Command
 //                                    'peer' => '',
 //                                    'message' => $message.'HUY'
 //                                ]);
-//                                    logger($message);
                                     $madelineProto->logger($message);
                                     $this->info("Message forwarded to bot");
                                 }

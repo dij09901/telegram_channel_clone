@@ -9,13 +9,18 @@
         "amphp/amp": "^3.0",
         "danog/madelineproto": "^8.2",
         "defstudio/telegraph": "^1.48",
+        "inertiajs/inertia-laravel": "^1.0",
         "irazasyed/telegram-bot-sdk": "^3.14",
         "laravel/framework": "^11.9",
+        "laravel/jetstream": "^5.1",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "revolt/event-loop": "^1.0"
+        "revolt/event-loop": "^1.0",
+        "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laravel/breeze": "^2.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.30",
         "mockery/mockery": "^1.6",
@@ -27,7 +32,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Http/Middleware/Admin/AdminMiddleware.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

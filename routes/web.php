@@ -1,13 +1,27 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use DefStudio\Telegraph\Telegraph;
-use \App\Http\Controllers\TelegramController;
+use Inertia\Inertia;
+
+//require __DIR__.'/admin/admin.php';
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
-//Route::post('/telegraph/{token}/webhook', [Telegraph::class, 'webhook'])->name('telegraph.webhook');
-//Route::get('/telegraph/{token}/webhook', [Telegraph::class, 'webhook']);
-Route::post('/telegram/receive-message', [TelegramController::class, 'receiveMessage']);
-Route::get('/telegram/receive-message', [TelegramController::class, 'receiveMessage']);
+
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
