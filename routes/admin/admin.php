@@ -1,12 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Auth\AuthController;
 
-//Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/', function () {
-        return \Inertia\Inertia::render('Admin/AdminDashboard');
-    })->name('admin.dashboard');
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-//    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    // Додайте інші адміністративні маршрути тут
-//});
+Route::middleware(['auth:admin', 'admin_redirect'])->group(base_path('routes/admin/admin_advanced.php'));

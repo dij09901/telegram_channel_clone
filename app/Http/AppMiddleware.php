@@ -28,7 +28,13 @@ class AppMiddleware extends HttpKernel
         ],
 
         'admin' => [
-            AdminMiddleware::class
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
+            \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
@@ -44,6 +50,9 @@ class AppMiddleware extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-
+        'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+        'role_has_permissions' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+        'admin_redirect' => AdminMiddleware::class
     ];
 }

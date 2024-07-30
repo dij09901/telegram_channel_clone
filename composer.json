@@ -16,6 +16,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "revolt/event-loop": "^1.0",
+        "spatie/laravel-permission": "^6.9",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {

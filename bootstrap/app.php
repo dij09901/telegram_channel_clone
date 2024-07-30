@@ -14,7 +14,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware('admin')
+            Route::middleware(['admin'])
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin/admin.php'));
@@ -29,7 +29,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
-        //
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
