@@ -7,4 +7,4 @@ Route::get('update', [SettingController::class, 'update'])->name('update');
 Route::get('destroy', [SettingController::class, 'destroy'])->name('destroy');
 
 
-//account.setting.edit
+//Account.setting.edit

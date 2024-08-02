@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('telegram_channels', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->string('channel_id');
             $table->string('name')->nullable();
             $table->timestamps();
 

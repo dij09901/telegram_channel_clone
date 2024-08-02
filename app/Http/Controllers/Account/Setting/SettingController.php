@@ -42,7 +42,7 @@ class SettingController extends Controller
     }
 
     /**
-     * Delete the user's account.
+     * Delete the user's Account.
      */
     public function destroy(Request $request): RedirectResponse
     {

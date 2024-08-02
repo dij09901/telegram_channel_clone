@@ -10,7 +10,7 @@ class TelegramChannel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_id', 'channel_id', 'name'
+        'project_id', 'name'
     ];
 
     public function project()

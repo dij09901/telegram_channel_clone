@@ -144,7 +144,7 @@ class TelegramClientCommand extends Command
                         break; // The cycle is overworked because the mind does not end
                     }
                 } else {
-                    $isValid = false; // If the key is not found on the account, please inform the invalid
+                    $isValid = false; // If the key is not found on the Account, please inform the invalid
                     break; // The cycle is iterated because the key is not found
                 }
             } else {
