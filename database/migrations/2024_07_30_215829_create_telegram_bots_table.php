@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('telegram_bots', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description');
             $table->unsignedBigInteger('project_id');
             $table->string('bot_token');
+
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('telegram_projects')->onDelete('cascade');
         });

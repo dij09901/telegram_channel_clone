@@ -21,11 +21,12 @@ class TelegramProject extends Model
 
     public function channels()
     {
-        return $this->hasMany(TelegramChannel::class);
+        return $this->hasMany(TelegramChannel::class, 'project_id');
+
     }
 
     public function bots()
     {
-        return $this->hasMany(TelegramBot::class);
+        return $this->hasMany(TelegramBot::class, 'project_id');
     }
 }

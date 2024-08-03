@@ -12,16 +12,16 @@ class TelegramBot extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_id', 'bot_token'
+        'name', 'description', 'bot_token', 'project_id'
     ];
 
     public function project()
     {
-        return $this->belongsTo(TelegramProject::class);
+        return $this->belongsTo(TelegramProject::class, 'project_id');
     }
 
-    public function users()
+    public function destination()
     {
-        return $this->belongsToMany(User::class, 'telegram_bot_user');
+        return $this->hasMany(TelegramBotDestination::class, 'bot_id');
     }
 }

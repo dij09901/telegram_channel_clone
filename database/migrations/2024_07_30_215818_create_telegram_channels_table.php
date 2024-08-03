@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->string('name')->nullable();
+            $table->string('channel')->nullable();
             $table->timestamps();
 
             $table->foreign('project_id')->references('id')->on('telegram_projects')->onDelete('cascade');

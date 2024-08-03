@@ -8,6 +8,9 @@ use danog\MadelineProto\Exception;
 use danog\MadelineProto\Settings;
 use Revolt\EventLoop;
 use Illuminate\Support\Facades\Http;
+use App\Models\TelegramBot\TelegramProject;
+use App\Models\TelegramBot\TelegramChannel;
+use App\Models\TelegramBot\TelegramBot;
 
 class TelegramClientCommand extends Command
 {
@@ -16,12 +19,22 @@ class TelegramClientCommand extends Command
 
     public function handle()
     {
+        // Fetch projects, channels, and bots from the database
+        $projects = TelegramProject::with(['channels', 'bots'])->get();
+
+        foreach ($projects as $project) {
+            foreach ($project->channels as $channel) {
+                foreach ($project->bots as $bot) {
+                    $this->processBot($channel, $bot);
+                }
+            }
+        }
+    }
+
+    private function processBot(TelegramChannel $channel, TelegramBot $bot)
+    {
         $apiId = env('TELEGRAM_API_ID');
         $apiHash = env('TELEGRAM_API_HASH');
-
-        $sourceChaneelID = env('TELEGRAM_SOURCE_CHANNEL_ID');
-        $destinationChatID = env('TELEGRAM_DESTINATION_CHAT_ID');
-        $botToken = env('TELEGRAM_BOT_TOKEN');
 
         $settings = new \danog\MadelineProto\Settings();
         $settings->getAppInfo()->setApiId($apiId)->setApiHash($apiHash);
@@ -30,7 +43,6 @@ class TelegramClientCommand extends Command
 
         try {
             $madelineProto->start();
-
             $this->info('Logged in successfully!');
         } catch (\Throwable $e) {
             $this->error("Error during login: " . $e->getMessage());
@@ -58,26 +70,26 @@ class TelegramClientCommand extends Command
                     'timeout' => 10
                 ]);
 
-//                $madelineProto->logger($offsetId);
-
                 foreach ($updates as $update) {
-//                    $madelineProto->logger($updates);
                     if ($offsetId != $update['update_id']) {
                         $offsetId = $update['update_id'];
                         if (isset($update['update']['message'])) {
                             $peer_id = $update['update']['message']['peer_id'];
 
-                            if ($peer_id == $sourceChaneelID) {
+                            if ($peer_id == $channel->channel) {
                                 $message = $update['update']['message']['message'];
                                 if ($this->filterMessage($message)) {
-                                    $this->sendMessageToTelegramBot($botToken, $destinationChatID, $message);
+                                    logger('bot_token: ');
+                                    logger($bot->bot_token);
 
-                                    #TODO
-//                                $madelineProto->messages->sendMessage([
-//                                    'peer' => '',
-//                                    'message' => $message.'HUY'
-//                                ]);
-                                    $madelineProto->logger($message);
+
+                                    foreach ($bot->destination as $clientId) {
+                                        logger('$clientId: ');
+                                        logger($clientId);
+                                        logger('$clientId->destination: ');
+                                        logger($clientId->destination);
+                                        $this->sendMessageToTelegramBot($bot->bot_token, $clientId->destination, $message);
+                                    }
                                     $this->info("Message forwarded to bot");
                                 }
                             }

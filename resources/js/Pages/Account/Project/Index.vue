@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, usePage, router } from '@inertiajs/vue3';
+import { Head, usePage, Link, router } from '@inertiajs/vue3';
+
 import AddProjectModal from '@/Components/Account/Project/AddProjectModal.vue';
 import ConfirmDeleteModal from '@/Components/Account/Project/ConfirmDeleteModal.vue';
 import UpdateProjectModal from '@/Components/Account/Project/UpdateProjectModal.vue';
@@ -68,19 +69,25 @@ const fetchProjects = () => {
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        <div v-for="project in projects" :key="project.id" class="bg-white shadow-lg rounded-lg p-4">
-                            <h3 class="text-lg font-semibold">{{ project.name }}</h3>
+                        <div v-for="project in projects" :key="project.id" class="bg-white shadow-lg rounded-lg p-4 height-min-300">
+
+                            <h3 class="text-lg font-semibold">
+                                <Link :href="route('account.project.show', project.id)" class="btn btn-primary">
+                                    {{ project.name }}
+                                </Link>
+                            </h3>
+
                             <p class="text-gray-600">{{ project.description }}</p>
-                            <div class="flex justify-between items-center">
+                            <div class="flex justify-between items-center height-min-300">
                                 <button
                                     @click="openUpdateModal(project)"
-                                    class="mt-2 text-blue-600 hover:text-blue-800"
+                                    class="mt-2 text-blue-600 hover:text-blue-800 end-0"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     @click="openDeleteModal(project)"
-                                    class="mt-2 text-red-600 hover:text-red-800"
+                                    class="mt-2 text-red-600 hover:text-red-800 end-0"
                                 >
                                     Delete
                                 </button>

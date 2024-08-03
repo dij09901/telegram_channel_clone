@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('telegram_bot_user', function (Blueprint $table) {
+        Schema::create('telegram_bot_destination', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->string('name');
+            $table->string('destination');
             $table->unsignedBigInteger('bot_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('bot_id')->references('id')->on('telegram_bots')->onDelete('cascade');
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('telegram_bot_user');
+        Schema::dropIfExists('bot_destination');
     }
 };

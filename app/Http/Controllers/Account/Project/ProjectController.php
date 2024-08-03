@@ -17,14 +17,27 @@ class ProjectController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
-        ]);
-
         $request->user()->telegramProjects()->create($request->all());
 
         return back()->with('success', 'Project created successfully.');
+    }
+
+    public function show(TelegramProject $telegramProject)
+    {
+        $project = auth()->user()->telegramProjects()->find($telegramProject->id);
+
+        if (!$project) {
+            return back()->with('error', 'You do not have permission to view this project.');
+        }
+        $project->load('channels');
+        $project->load('bots');
+        $bots = $project->bots()->with('destination')->get();
+
+        return Inertia::render('Account/Project/Show', [
+            'channels' => $project->channels,
+            'projectID' => $project->id,
+            'bots' => $bots
+        ]);
     }
 
     /**

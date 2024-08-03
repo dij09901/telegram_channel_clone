@@ -2,19 +2,17 @@
 
 namespace App\Models\TelegramBot;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TelegramChannel extends Model
+class TelegramBotDestination extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'project_id', 'name', 'channel'
-    ];
+    protected $table = "telegram_bot_destination";
 
-    public function project()
-    {
-        return $this->belongsTo(TelegramProject::class);
-    }
+    protected $fillable = [
+        'name', 'destination', 'bot_id'
+    ];
 }
